@@ -16,8 +16,8 @@ class Standby(AmbeoBaseSwitch):
     def __init__(self, device, api):
         """Initialize the Standby switch."""
         super().__init__(device, api, "Standby")
-        self._is_on = api.wake()
-        
+        self._is_on = api.get_value("settings:/espresso/powermanager", "string_")
+        _LOGGER.error(f"power state is: {self._is_on")       
 
     async def async_turn_on(self):
         """Wake from standby."""
@@ -46,6 +46,5 @@ async def async_setup_entry(
     ambeo_api = hass.data[DOMAIN][config_entry.entry_id]["api"]
     ambeo_device = hass.data[DOMAIN][config_entry.entry_id]["device"]
     entities = []
-    if  ambeo_device.max_compat:
-        entities.append(Standby(ambeo_device, ambeo_api))
+    entities.append(Standby(ambeo_device, ambeo_api))
     async_add_entities(entities, update_before_add=True)
