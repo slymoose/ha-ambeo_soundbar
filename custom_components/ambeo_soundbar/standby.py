@@ -16,6 +16,8 @@ class Standby(AmbeoBaseSwitch):
     def __init__(self, device, api):
         """Initialize the Standby switch."""
         super().__init__(device, api, "Standby")
+        self._is_on = api.wake()
+        
 
     async def async_turn_on(self):
         """Wake from standby."""
